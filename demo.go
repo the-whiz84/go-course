@@ -1,10 +1,9 @@
 package main
 
-import (
-	"fmt"
-	// "math"
-	// "strconv"
-)
+import "fmt"
+
+// "math"
+// "strconv"
 
 func main() {
 	// fmt.Println("Hello, World!")
@@ -345,15 +344,262 @@ func main() {
 	// }
 	// ð		//it cannot retrieve the emoji by index
 
-	str := "hello world"
+	// str := "hello world"
 
 	// Instead we use the range syntax to handle the special characters
-	for _, char := range str { // if we do not need to print or retrieve the index, we use _ instead of i
-		fmt.Printf("%c", char)
+	// for _, char := range str { // if we do not need to print or retrieve the index, we use _ instead of i
+	// 	fmt.Printf("%c", char)
 
-	}
+	// }
 	// hello world
 
 	// 6. Arrays
 
+	//Fixed sized data structure that can store values of the same type.
+
+	// var arr [2]int //arrays that stores integers of size 2
+	// var arr [3]int //different array type. It cannot change once its initialized
+	// fmt.Println(arr)
+	// [0 0]
+
+	// var arr [2]bool
+	// fmt.Println(arr)
+	// [false false]
+
+	// we can also initialize arrays using the implicit assignment
+	// arr := [2]int{1, 2} // this is known as an array literal where we provide the values in the array already
+	// fmt.Println(arr)
+	// [1 2]
+
+	// arr := [2][2]int{{1, 2}, {2, 3}} //nested arrays
+	// fmt.Println(arr)
+	// [[1 2] [2 3]]
+
+	// there is one more way to initialize an array without providing the count. The compiler will analyze the literal and intialize the correct value
+	// arr := [...][2]int{{1, 2}, {2, 3}, {3, 2}}
+	// fmt.Printf("%T", arr)
+	// [3][2]int
+
+	// Array properties
+
+	// arr := [...][2]int{{1, 2}, {2, 3}, {3, 2}}
+	// arr[0] = [2]int{10, 11} //access index and setting value
+
+	// fmt.Println(arr)
+	// [[10 11] [2 3] [3 2]]
+
+	// fmt.Println(len(arr)) //access length of array
+
+	// Loop through arrays
+	// for i, value := range arr {
+	// 	fmt.Println(i, value)
+	// }
+	// 0 [10 11]
+	// 1 [2 3]
+	// 2 [3 2]
+
+	// Loop through nested array
+	// for _, nested := range arr {
+	// 	for _, value := range nested {
+	// 		fmt.Println(value)
+	// 	}
+	// }
+	// 10
+	// 11
+	// 2
+	// 3
+	// 3
+	// 2
+
+	// Arrays in functions
+	// arr := [...][2]int{{1, 2}, {2, 3}, {3, 2}}
+	// test(arr) //this doesn't actually mutate the index 0 by passing the array to the test function. In Go, by defauult, it passes a copy of the array and mutates the copy
+	// fmt.Println(arr)
+	// [[1 2] [2 3] [3 2]]
+
+	// 7. Slices
+
+	// Slices are much more flexible in Go than arrays and are used over them in most situations.
+	// A slice is a view of an arrays and allows to increase or decrease the capacity of an array.
+
+	// arr := [5]int{1, 2, 3, 4, 5}
+	// sl := arr[:3] //view the array up to but not including index 3
+	// fmt.Println(sl)
+	// [1 2 3]
+
+	// sl := arr[1:3]   // slice from and including index 1 up to index 3
+	// fmt.Println(sl)
+	// [2 3]
+
+	// sl := arr[1:] //slice to and including last index
+	// fmt.Println(sl)
+	// [2 3 4 5]
+
+	// We can access index of slices
+	// sl := arr[1:]
+	// fmt.Println(sl[0]) // gives us the first element in the slice
+	// 2
+
+	// We can mutate the slices
+	// sl := arr[1:]
+	// sl[0] = 100
+	// fmt.Println(sl, arr)
+	// [100 3 4 5] [1 100 3 4 5]	// when we modify the slice, we also modify that element in the array
+
+	// Slice properties:
+	// pointer -> the first element the slice points to in the underlying array
+	// length  - length of slice
+	// capacity  - how many elements exist from the pointer to the end of the array
+
+	// arr := [5]int{1, 2, 3, 4, 5}
+	// sl := arr[:3] 	// pointer is arr[0]
+	// 					// len is 3
+	// 					// capacity is 5
+
+	// fmt.Println(sl, len(sl), cap(sl))
+	// [1 2 3] 3 5
+
+	// arr := [5]int{1, 2, 3, 4, 5}
+	// sl := arr[1:3] 	// pointer is arr[1]
+	// len is 2
+	// capacity is 4
+
+	// fmt.Println(sl, len(sl), cap(sl))
+	// [2 3] 2 4
+
+	// We can re-slice or expand the capacity of the slice
+	// arr := [5]int{1, 2, 3, 4, 5}
+	// sl := arr[1:3]
+	// sl = sl[:4]
+
+	// fmt.Println(sl, len(sl), cap(sl))
+	// [2 3 4 5] 4 4
+
+	// How to create slices without having and underlying array
+	// sl := []string{"hello", "world"} // this is different than an array, an implicit array will be created with the pointer for this slice will point to it, with a len=2, cap=2
+	// fmt.Println(sl)
+	// // [hello world]
+	// fmt.Printf("%T", sl)
+	// []string   // this is the slice type, different than what we had before [3][2]int which was the array type
+
+	// Appending to the slice
+	// sl := []string{"hello", "world"}
+
+	// for x := 0; x < 10; x++ {
+	// 	sl = append(sl, "radu")
+	// 	fmt.Println(sl, len(sl), cap(sl))
+	// }
+	// [hello world radu] 3 4
+	// [hello world radu radu] 4 4
+	// [hello world radu radu radu] 5 8
+	// [hello world radu radu radu radu] 6 8
+	// [hello world radu radu radu radu radu] 7 8
+	// [hello world radu radu radu radu radu radu] 8 8
+	// [hello world radu radu radu radu radu radu radu] 9 16
+	// [hello world radu radu radu radu radu radu radu radu] 10 16
+	// [hello world radu radu radu radu radu radu radu radu radu] 11 16
+	// [hello world radu radu radu radu radu radu radu radu radu radu] 12 16
+
+	// We can observe that the len and capacity are not the same. What happens is that the underlying array douubles its capacity to allow for the new value.
+	// When it reaches the max and cannot add again, it doubles again.
+
+	// Other ways to create slices:
+	//  By specifying type, size and capacity
+	// sl := make([]int, 10, 20) // type int, size 10, capacity 20
+
+	// Iterate over slices
+	// sl := []string{"hello", "world", "from", "go"}
+
+	// for i, value := range sl {
+	// 	fmt.Println(i, value)
+	// }
+	// 0 hello
+	// 1 world
+	// 2 from
+	// 3 go
+
+	// Passing a slice into a function
+	// sl := []string{"hello", "world", "from", "go"}
+	// test2(sl) // different behavior than with arrays. We mutate the slice when we pass it to a function.
+	// fmt.Println(sl)
+	// [changed this world from go]
+
+	// 8. Maps
+
+	// How to create and initialize a map
+
+	// var mp map[string]int = map[string]int{"a": 1}   //or
+	// mp := map[string]int{"a": 1}
+	// fmt.Println(mp)
+	// map[a:1]
+
+	// We can also use the make function
+	// mp := make(map[string]int) //we create an empty map
+	// fmt.Println(mp)
+	// map[]
+
+	// We can create more complicated maps
+	// mp := map[string][]int{"a": {1, 2, 3}} //key is a string and value is a slice
+	// fmt.Println(mp)
+	// fmt.Printf("%T", mp)
+	// map[a:[1 2 3]]
+	// map[string][]int
+
+	// How to add values to the map
+	// mp := map[string][]int{"a": {1, 2, 3}}
+	// mp["b"] = []int{4, 5, 6}
+	// fmt.Println(mp)
+	// map[a:[1 2 3] b:[4 5 6]]
+
+	// We can also modify values
+	// mp := map[string][]int{"a": {1, 2, 3}}
+	// mp["b"] = []int{4, 5, 6}
+	// mp["b"] = []int{}
+	// fmt.Println(mp)
+	// map[a:[1 2 3] b:[]]
+
+	// To delete a key from the map
+	// mp := map[string][]int{"a": {1, 2, 3}}
+	// mp["b"] = []int{4, 5, 6}
+	// delete(mp, "b")
+	// fmt.Println(mp)
+	// map[a:[1 2 3]]
+
+	// How to find a key inside a map
+	// mp := map[string][]int{"a": {1, 2, 3}}
+	// mp["b"] = []int{4, 5, 6}
+
+	// value, ok := mp["b"]
+	// fmt.Println(value, ok)
+	// [4 5 6] true
+
+	// Using maps
+	mp := map[uint]uint{}
+	n := uint(100)
+
+	// For each number 1-100, check which is divisible by 1-5 and add it to the map
+	for number := uint(1); number <= n; number++ {
+		for d := uint(1); d <= 5; d++ {
+			if number%d == 0 {
+				mp[d]++
+			}
+		}
+	}
+	fmt.Println(mp)
+	// map[1:100 2:50 3:33 4:25 5:20]
+
+	// We have 100 values divisibile by 1, 50 values divisible by 2, 33 by 3 etc.
+
+	// 9. Functions
+
+}
+
+// Arrays in functions
+func test(arr [3][2]int) {
+	arr[0] = [2]int{100, 100}
+}
+
+// Passing a slice into a function
+func test2(arr []string) {
+	arr[0] = "changed this"
 }
